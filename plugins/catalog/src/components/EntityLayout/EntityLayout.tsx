@@ -25,7 +25,14 @@ import React, {
   useState,
 } from 'react';
 import { Entity, ENTITY_DEFAULT_NAMESPACE } from '@backstage/catalog-model';
-import { Content, Header, HeaderLabel, Page, Progress } from '@backstage/core';
+import {
+  attachComponentData,
+  Content,
+  Header,
+  HeaderLabel,
+  Page,
+  Progress,
+} from '@backstage/core';
 import { Box } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useNavigate } from 'react-router';
@@ -43,6 +50,9 @@ type SubRoute = {
 };
 
 const Route: (props: SubRoute) => null = () => null;
+
+// This causes all mount points that are discovered within this route to use the path of the route itself
+attachComponentData(Route, 'core.gatherMountPoints', true);
 
 export function createSubRoutesFromChildren(children: ReactNode): SubRoute[] {
   return Children.toArray(children).flatMap(child => {
